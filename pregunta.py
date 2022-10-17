@@ -23,11 +23,6 @@ def clean_data():
     df['monto_del_credito'] = df['monto_del_credito'].str.replace("\.00", "")
 
     df = df.astype({ "monto_del_credito": int, "comuna_ciudadano": float})
-
-    # Corregir tipo de dato de la columna comuna_ciudadano -> Pasar a formato de fecha
     df['fecha_de_beneficio'] = df['fecha_de_beneficio'].apply(lambda x: datetime.strptime(x, "%Y/%m/%d") if (len(re.findall("^\d+/", x)[0]) - 1) == 4 else datetime.strptime(x, "%d/%m/%Y"))
-
-    # Luego de depurar, se pueden haber generado duplicados, por lo que se eliminan de nuevo
-    df.drop_duplicates(inplace = True)
 
     return df
